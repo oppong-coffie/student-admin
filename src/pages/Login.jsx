@@ -8,8 +8,23 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("super-admin");
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!email) newErrors.email = "Email is required";
+    if (!password) newErrors.password = "Password is required";
+    if (!role) newErrors.role = "Role is required";
+    return newErrors;
+  };
 
   const handleLogin = async () => {
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+    setErrors({});
     setIsLoading(true);
 
     // Simulate login delay
@@ -42,15 +57,17 @@ export default function LoginForm() {
               Role
             </label>
             <select
+            required
               id="role"
               value={role}
               onChange={(e) => setRole(e.target.value)}
-              className="w-full px-4 py-2  border-gray-400 rounded-md bg-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+              className={`w-full px-4 py-2 border rounded-md bg-gray-300 text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition ${errors.role ? 'border-red-500' : 'border-gray-400'}`}
             >
               <option value="super-admin">Super Admin</option>
               <option value="admin">Admin</option>
               <option value="user">User</option>
             </select>
+            {errors.role && <p className="text-red-500 text-xs mt-1">{errors.role}</p>}
           </div>
 
           {/* Email Input */}
@@ -59,13 +76,15 @@ export default function LoginForm() {
               Email
             </label>
             <input
+            required
               id="email"
               type="email"
               placeholder="admin@email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2  border-gray-400 rounded-md bg-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+              className={`w-full px-4 py-2 border rounded-md bg-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition ${errors.email ? 'border-red-500' : 'border-gray-400'}`}
             />
+            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
           </div>
 
           {/* Password Input */}
@@ -74,13 +93,15 @@ export default function LoginForm() {
               Password
             </label>
             <input
+              required
               id="password"
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border-gray-400 rounded-md bg-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+              className={`w-full px-4 py-2 border rounded-md bg-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition ${errors.password ? 'border-red-500' : 'border-gray-400'}`}
             />
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
             <div className="flex justify-end">
               <a href="#" className="text-xs text-gray-600 hover:text-gray-900 transition">
                 Forgot Password?
