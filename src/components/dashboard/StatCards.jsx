@@ -1,0 +1,64 @@
+export default function StatCards() {
+  const stats = [
+    {
+      id: 1,
+      label: "Total Balance",
+      value: "₵11,987.00",
+      icon: "💰",
+      trend: "down",
+    },
+    {
+      id: 2,
+      label: "Total Transactions",
+      value: "₵11,987.00",
+      icon: "💳",
+      trend: "up",
+    },
+    {
+      id: 3,
+      label: "Active Student Accounts",
+      value: "500",
+      icon: "👥",
+      trend: "up",
+    },
+    {
+      id: 4,
+      label: "Pending Accounts",
+      value: "500",
+      icon: "📊",
+      action: "Review",
+    },
+  ]
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 px-9">
+      {stats.map((stat) => (
+        <div
+          key={stat.id}
+          className="rounded-2xl p-4 shadow-lg hover:shadow-xl transition-shadow bg-gradient-to-r from-orange-300 to-orange-500"
+        >
+          <div className="flex items-start justify-between mb-2">
+            <div>
+              <p className="text-sm font-medium text-orange-100 mb-2">{stat.label}</p>
+            </div>
+            <span className="text-xl">{stat.icon}</span>
+          </div>
+          <div className="flex items-center justify-between">
+          <p className="text-xl font-bold text-white">{stat.value}</p>
+
+            {stat.trend && (
+              <span className={`text-xs font-semibold ${stat.trend === "down" ? "text-red-600" : "text-green-500"}`}>
+                {stat.trend === "down" ? "↓" : "↑"} 2.5%
+              </span>
+            )}
+            {stat.action && (
+              <button className="px-3 py-1 bg-white text-orange-500 rounded-full text-xs font-semibold hover:bg-orange-50 transition">
+                {stat.action}
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
